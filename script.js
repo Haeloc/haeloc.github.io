@@ -211,6 +211,26 @@ document.addEventListener('DOMContentLoaded', () => {
             navLinks.classList.remove('active');
         });
     });
+
+    const listenNowButton = document.getElementById('listenNow');
+    const stopButton = document.getElementById('stopButton');
+    let audioContext;
+    let audioElement;
+
+    listenNowButton.addEventListener('click', () => {
+        // Initialize audio context
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        audioElement = document.querySelector('.music-grid iframe');
+
+        // Play the audio
+        audioElement.contentWindow.postMessage('{"method":"play"}', '*');
+    });
+
+    stopButton.addEventListener('click', () => {
+        if (audioElement) {
+            audioElement.contentWindow.postMessage('{"method":"pause"}', '*'); // Stop the audio
+        }
+    });
 });
 
 // Modify the smooth scroll for navigation links
